@@ -384,35 +384,35 @@ class _CustomSlidingSegmentedControlState<T>
                   .map((item) => _dividerItem(item.key, item.value))
                   .toList(),
             ),
-          AnimationPanel<T>(
-            hasTouch: hasTouch,
-            offset: offset,
-            height: height,
-            width: sizes[current],
-            duration: widget.duration,
-            curve: widget.curve,
-            decoration: widget.thumbDecoration,
-          ),
+          if (widget.initialValue != null)
+            AnimationPanel<T>(
+              hasTouch: hasTouch,
+              offset: offset,
+              height: height,
+              width: sizes[current],
+              duration: widget.duration,
+              curve: widget.curve,
+              decoration: widget.thumbDecoration,
+            ),
           Row(
-            children: [
-              for (final item in widget.children.entries) ...[
-                MeasureSize(
-                  onChange: (value) {
-                    calculateSize(
-                      size: value,
-                      item: item,
-                      isCacheEnabled: true,
-                    );
-                  },
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(
-                      minWidth: minSegmentWidth,
-                    ),
-                    child: _segmentItem(item),
-                  ),
-                ),
-              ],
-            ],
+            children: widget.children.entries.map((item) {
+              final measureSize = MeasureSize(
+                onChange: (value) {
+                  calculateSize(
+                    size: value,
+                    item: item,
+                    isCacheEnabled: true,
+                  );
+                },
+                child: _segmentItem(item),
+              );
+
+              if (widget.isStretch) {
+                return Expanded(child: measureSize);
+              }
+
+              return measureSize;
+            }).toList(growable: false),
           ),
         ],
       ),
