@@ -193,8 +193,6 @@ class _CustomSlidingSegmentedControlState<T>
     } else {
       if (widget.initialValue != null) {
         current = _keys[_index];
-      } else {
-        current = _keys.first;
       }
     }
   }
@@ -384,7 +382,7 @@ class _CustomSlidingSegmentedControlState<T>
                   .map((item) => _dividerItem(item.key, item.value))
                   .toList(),
             ),
-          if (widget.initialValue != null)
+          if (current != null)
             AnimationPanel<T>(
               hasTouch: hasTouch,
               offset: offset,
