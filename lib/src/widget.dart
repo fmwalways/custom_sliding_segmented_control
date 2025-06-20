@@ -273,7 +273,7 @@ class _CustomSlidingSegmentedControlState<T>
   void _scrollIfNeed() {
     _scrollTimer?.cancel();
     _scrollTimer = Timer(const Duration(milliseconds: 100), () {
-      final size = sizes[current]!;
+      final size = sizes[current] ?? 0.0;
       if (offset < _scrollController.offset) {
         _scrollController.animateTo(
           offset,
